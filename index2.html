@@ -1,0 +1,305 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Music Ally - Download App</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f0f2f5;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            justify-content: center;
+            align-items: flex-start;
+            min-height: 100vh;
+            /* Add a subtle music-themed background image. Replace with your image file. */
+            background-image: url('music-background.jpg');
+            background-size: cover;
+            background-position: center;
+            background-attachment: fixed;
+        }
+        .app-container {
+            background-color: #fff;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+            max-width: 100%;
+            width: 100%;
+            padding: 30px;
+            box-sizing: border-box;
+            text-align: center;
+        }
+        .header {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: 20px;
+            flex-wrap: wrap;
+        }
+        .logo {
+            width: 100px;
+            height: 100px;
+            border-radius: 20px;
+            margin-right: 20px;
+        }
+        .app-info {
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            text-align: left;
+        }
+        .developer-name {
+            font-size: 0.9em;
+            color: #007bff;
+            margin-bottom: 5px;
+        }
+        .app-name {
+            font-size: 2.5em;
+            font-weight: bold;
+            color: #333;
+            margin: 0;
+        }
+        .app-stats {
+            display: flex;
+            justify-content: space-around;
+            align-items: center;
+            margin-top: 20px;
+            margin-bottom: 30px;
+            padding: 10px 0;
+            border-top: 1px solid #e0e0e0;
+            border-bottom: 1px solid #e0e0e0;
+        }
+        .stat-item {
+            text-align: center;
+            flex: 1;
+        }
+        .stat-item h3 {
+            margin: 0;
+            font-size: 1.2em;
+            color: #333;
+        }
+        .stat-item p {
+            margin: 0;
+            font-size: 0.9em;
+            color: #666;
+        }
+        .download-creator-row {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 20px;
+            margin-bottom: 30px;
+        }
+        .download-button {
+            background-color: #007bff;
+            color: #fff;
+            padding: 15px 30px;
+            font-size: 1.2em;
+            border: none;
+            border-radius: 50px;
+            text-decoration: none;
+            font-weight: bold;
+            display: inline-block;
+            transition: background-color 0.3s ease;
+        }
+        .download-button:hover {
+            background-color: #0056b3;
+        }
+        .creator-info {
+            font-size: 1em;
+            color: #555;
+            display: flex;
+            flex-direction: column;
+            text-align: left;
+        }
+        .screenshot-container {
+            display: flex;
+            flex-wrap: nowrap;
+            overflow-x: auto;
+            margin-top: 30px;
+            gap: 15px;
+            padding-bottom: 10px;
+            -webkit-overflow-scrolling: touch;
+            scrollbar-width: none; /* Firefox */
+        }
+        .screenshot-container::-webkit-scrollbar {
+            display: none; /* Safari and Chrome */
+        }
+        .screenshot-container img {
+            width: 150px;
+            height: auto;
+            border-radius: 8px;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+            flex-shrink: 0;
+            cursor: pointer; /* Add cursor to indicate it's clickable */
+        }
+        .features-list {
+            text-align: left;
+            margin-top: 30px;
+            padding: 0 15px;
+            color: #333;
+        }
+        .features-list h2 {
+            font-size: 1.5em;
+            margin-bottom: 15px;
+            color: #007bff;
+        }
+        .features-list ul {
+            list-style-type: none;
+            padding: 0;
+        }
+        .features-list li {
+            background: #e9ecef;
+            padding: 12px;
+            margin-bottom: 10px;
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            font-size: 1em;
+        }
+        .features-list li::before {
+            content: '✓';
+            color: #28a745;
+            font-weight: bold;
+            margin-right: 10px;
+        }
+        #fullscreen-viewer {
+            display: none; /* Hidden by default */
+            position: fixed;
+            z-index: 1000;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            overflow: auto;
+            background-color: rgba(0,0,0,0.9);
+            text-align: center;
+        }
+        #fullscreen-viewer img {
+            max-width: 90%;
+            max-height: 90%;
+            margin: auto;
+            display: block;
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+        }
+        #close-button {
+            position: absolute;
+            top: 0; /* Move to the very top */
+            right: 0; /* Move to the very right */
+            background-color: #007bff;
+            color: #fff;
+            padding: 10px 20px;
+            font-size: 1.2em;
+            font-weight: bold;
+            cursor: pointer;
+            border-radius: 0 0 0 10px; /* Rounded corner at the bottom left */
+            transition: background-color 0.3s ease;
+        }
+        #close-button:hover {
+            background-color: #0056b3;
+        }
+        @media (max-width: 600px) {
+            .app-container {
+                padding: 20px;
+            }
+            .header {
+                justify-content: flex-start;
+                margin-left: 10px;
+            }
+            .logo {
+                margin-right: 15px;
+            }
+            .app-name {
+                font-size: 2em;
+            }
+            .download-button {
+                padding: 12px 25px;
+                font-size: 1.1em;
+            }
+        }
+    </style>
+</head>
+<body>
+
+<div class="app-container">
+    <div class="header">
+        <img src="logo.jpg" alt="Music Ally Logo" class="logo">
+        <div class="app-info">
+            <div class="developer-name">Rohit Sarkar Deb</div>
+            <h1 class="app-name">Music Ally</h1>
+        </div>
+    </div>
+    
+    <div class="app-stats">
+        <div class="stat-item">
+            <h3>⭐4.4+</h3>
+            <p>Rating</p>
+        </div>
+        <div class="stat-item">
+            <h3>1k+</h3>
+            <p>Downloads</p>
+        </div>
+        <div class="stat-item">
+            <h3>V 9.75.0</h3>
+            <p>Version</p>
+        </div>
+    </div>
+
+    <div class="download-creator-row">
+        <a href="MusicAlly.apk" class="download-button" download>
+            Download APK
+        </a>
+        <div class="creator-info">
+            <span>Created by</span>
+            <span><b>Rohit Sarkar Deb</b></span>
+        </div>
+    </div>
+
+    <div class="screenshot-container">
+        <img src="1.jpg" alt="App Screenshot 1" onclick="openFullscreen(this)">
+        <img src="2.jpg" alt="App Screenshot 2" onclick="openFullscreen(this)">
+        <img src="3.jpg" alt="App Screenshot 3" onclick="openFullscreen(this)">
+        <img src="4.jpg" alt="App Screenshot 4" onclick="openFullscreen(this)">
+    </div>
+    
+    <div class="features-list">
+        <h2>Features</h2>
+        <ul>
+            <li>All Songs available</li>
+            <li>No ads</li>
+            <li>Fully free</li>
+            <li>Instant download</li>
+            <li>Best for song lover</li>
+        </ul>
+    </div>
+</div>
+
+<div id="fullscreen-viewer" onclick="closeFullscreen(event)">
+    <div id="close-button">Close</div>
+    <img id="fullscreen-image" src="" alt="Full Screen App Screenshot">
+</div>
+
+<script>
+    function openFullscreen(imgElement) {
+        const viewer = document.getElementById('fullscreen-viewer');
+        const fullscreenImage = document.getElementById('fullscreen-image');
+        fullscreenImage.src = imgElement.src;
+        viewer.style.display = 'block';
+    }
+
+    function closeFullscreen(event) {
+        // Only close if the click is not on the image itself
+        if (event.target.id === 'fullscreen-image') {
+            return;
+        }
+        const viewer = document.getElementById('fullscreen-viewer');
+        viewer.style.display = 'none';
+    }
+</script>
+
+</body>
+</html>
